@@ -1,5 +1,6 @@
 package pl.arturborowy.rnm.character.details
 
+import androidx.databinding.ObservableField
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
@@ -16,6 +17,13 @@ class CharacterDetailsViewModel(
     private val schedulerProvider: SchedulerProvider
 ) : FragmentViewModel(), RxJavaSubscriber {
 
+    val name = ObservableField("")
+    val avatarUrl = ObservableField("")
+    val gender = ObservableField("")
+    val statusOfLife = ObservableField("")
+    val currentLocationName = ObservableField("")
+    val originLocationName = ObservableField("")
+
     override fun onViewCreated() {
         presentCachedCharacter()
     }
@@ -30,6 +38,12 @@ class CharacterDetailsViewModel(
     }
 
     private fun presentCharacter(character: CharacterDetailsEntity) {
+        name.set(character.name)
+        avatarUrl.set(character.imageUrl)
+        gender.set(character.gender)
+        statusOfLife.set(character.statusOfLife)
+        currentLocationName.set(character.currentLocation.name)
+        originLocationName.set(character.originLocation.name)
     }
 
     override fun onDestroyView() {
