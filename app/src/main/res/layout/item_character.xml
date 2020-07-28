@@ -7,17 +7,22 @@
         <variable
             name="vm"
             type="pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity" />
+
+        <variable
+            name="onClick"
+            type="kotlin.jvm.functions.Function1" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> onClick.invoke(vm)}"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:srcUrl="@{vm.image_url}" />
+            app:srcUrl="@{vm.imageUrl}" />
 
         <TextView
             android:id="@+id/name"

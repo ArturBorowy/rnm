@@ -7,12 +7,12 @@ data class CharacterDetailsEntity(
     val episodes: List<String>,
     val gender: String,
     val id: Int,
-    val image_url: String,
+    val imageUrl: String,
     val currentLocation: CharacterLocationEntity,
     val name: String,
     val originLocation: CharacterLocationEntity,
     val species: String,
-    val status: String,
+    val statusOfLife: String,
     val type: String,
     val url: String
 )

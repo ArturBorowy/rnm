@@ -1,6 +1,13 @@
 package pl.arturborowy.rnm.base.ui.viewmodel
 
+import androidx.annotation.IdRes
+import androidx.databinding.ObservableField
+
 abstract class FragmentViewModel : BaseViewModel() {
+
+    val desiredDestination = ObservableField<Int>()
+
+    fun navigate(@IdRes actionResId: Int) = desiredDestination.set(actionResId)
 
     open fun onAttach() {
     }

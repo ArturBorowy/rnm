@@ -23,6 +23,7 @@ class CharacterListViewModel(
     val characters = ObservableArrayList<CharacterDetailsEntity>()
     val charactersBinding =
         ItemBinding.of<CharacterDetailsEntity>(BR.vm, R.layout.item_character)
+            .apply { bindExtra(BR.onClick, ::onCharacterClick) }
 
     override fun onViewCreated() {
         fetchCharacters()
@@ -38,6 +39,11 @@ class CharacterListViewModel(
                 },
                 onError = { Timber.w(it) }
             ).addToSubs()
+    }
+
+    private fun onCharacterClick(character: CharacterDetailsEntity) {
+        charactersInteractor.requestCachedCharacterId(character.id)
+        navigate(R.id.action_characterList_to_characterDetails)
     }
 
     override fun onDestroyView() {
