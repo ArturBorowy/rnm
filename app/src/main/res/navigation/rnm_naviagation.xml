@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/characterList"
         android:name="pl.arturborowy.rnm.character.list.CharacterListFragment"
-        android:label="Blank"
         tools:layout="@layout/fragment_character_list" />
 
 </navigation>

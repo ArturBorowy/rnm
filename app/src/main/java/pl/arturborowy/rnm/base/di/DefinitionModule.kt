@@ -7,5 +7,6 @@ val definitionModule =
         viewModelModule,
         restModule,
         mapperModule,
-        repositoryModule
+        repositoryModule,
+        interactorModule
     )
