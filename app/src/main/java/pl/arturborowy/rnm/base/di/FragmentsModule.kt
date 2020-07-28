@@ -6,12 +6,15 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import pl.arturborowy.rnm.base.ui.fragment.BaseFragment
+import pl.arturborowy.rnm.character.details.CharacterDetailsFragment
 import pl.arturborowy.rnm.character.list.CharacterListFragment
 import timber.log.Timber
 
 val fragmentsModule = module {
     single { NavHostFragment() }
+
     fragment { CharacterListFragment(get()) }
+    fragment { CharacterDetailsFragment(get()) }
 }
 
 private inline fun <reified FragmentT : BaseFragment<*>> Module.fragment(

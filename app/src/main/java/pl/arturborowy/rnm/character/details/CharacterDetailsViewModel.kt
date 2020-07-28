@@ -21,7 +21,7 @@ class CharacterDetailsViewModel(
     }
 
     private fun presentCachedCharacter() {
-        charactersInteractor.getCachedCharacter(-1)//TODO
+        charactersInteractor.getCachedCharacter()
             .setSchedulers(schedulerProvider)
             .subscribeBy(
                 onSuccess = ::presentCharacter,

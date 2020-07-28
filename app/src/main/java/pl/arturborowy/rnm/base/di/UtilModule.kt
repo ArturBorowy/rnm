@@ -1,5 +1,7 @@
 package pl.arturborowy.rnm.base.di
 
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -24,5 +26,9 @@ val utilModule = module {
         named<YearMonthDayHourMinuteSecondMillisStringToDateConverter>()
     ) {
         YearMonthDayHourMinuteSecondMillisStringToDateConverter(Locale.US)
+    }
+
+    factory<MutableCollection<Pair<ObservableField<*>, Observable.OnPropertyChangedCallback>>> {
+        mutableSetOf()
     }
 }

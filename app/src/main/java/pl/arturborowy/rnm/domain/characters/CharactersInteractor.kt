@@ -12,9 +12,15 @@ class CharactersInteractor(
         charactersRemoteRepository.getCharacters()
             .doOnSuccess { charactersCacheRepository.cacheCharacters(it.characters) }
 
-    fun getCachedCharacter(id: Int): Single<CharacterDetailsEntity> =
+    fun getCachedCharacter(): Single<CharacterDetailsEntity> =
         charactersCacheRepository.getCharacters()
             .map { characters ->
-                characters.firstOrNull { character -> character.id == id }
+                characters.firstOrNull { character ->
+                    character.id == charactersCacheRepository.requestedCachedCharacterId
+                }
             }
+
+    fun requestCachedCharacterId(id: Int) {
+        charactersCacheRepository.requestedCachedCharacterId = id
+    }
 }

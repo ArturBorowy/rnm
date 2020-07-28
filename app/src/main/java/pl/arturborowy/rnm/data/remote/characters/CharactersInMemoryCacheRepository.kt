@@ -7,6 +7,8 @@ import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
 
 class CharactersInMemoryCacheRepository : CharactersCacheRepository {
 
+    override var requestedCachedCharacterId: Int? = null
+
     private val charactersSubject =
         BehaviorSubject.create<List<CharacterDetailsEntity>>()
 
