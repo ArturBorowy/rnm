@@ -4,10 +4,10 @@ import java.util.*
 
 data class CharacterDetailsEntity(
     val created: Date,
-    val episode: List<String>,
+    val episodes: List<String>,
     val gender: String,
     val id: Int,
-    val image: String,
+    val image_url: String,
     val currentLocation: CharacterLocationEntity,
     val name: String,
     val originLocation: CharacterLocationEntity,
