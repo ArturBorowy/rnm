@@ -4,5 +4,8 @@ val definitionModule =
     listOf(
         utilModule,
         fragmentsModule,
-        viewModelModule
+        viewModelModule,
+        restModule,
+        mapperModule,
+        repositoryModule
     )
