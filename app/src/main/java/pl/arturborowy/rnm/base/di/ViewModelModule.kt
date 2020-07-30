@@ -18,7 +18,14 @@ val viewModelModule = module {
             get()
         )
     }
-    single { CharacterDetailsViewModel(get(), get(), get(named<RemoteFetchSchedulerProvider>())) }
+    single {
+        CharacterDetailsViewModel(
+            get(),
+            get(),
+            get(named<RemoteFetchSchedulerProvider>()),
+            get()
+        )
+    }
 
     factory { LoadingScreenViewModel() }
 }
