@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 
 @BindingAdapter("srcUrl")
 fun setSrcUrl(imageView: ImageView, url: String?) {
-    Glide.with(imageView)
+    Glide.with(imageView.context.applicationContext)
         .load(url)
         .into(imageView)
 }
