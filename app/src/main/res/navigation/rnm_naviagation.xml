@@ -5,16 +5,14 @@
     android:id="@+id/rnm_naviagation"
     app:startDestination="@id/characterList">
 
+    <action
+        android:id="@+id/action_characterList_to_characterDetails"
+        app:destination="@id/characterDetails" />
+
     <fragment
         android:id="@+id/characterList"
         android:name="pl.arturborowy.rnm.character.list.CharacterListFragment"
-        tools:layout="@layout/fragment_character_list">
-
-        <action
-            android:id="@+id/action_characterList_to_characterDetails"
-            app:destination="@id/characterDetails" />
-
-    </fragment>
+        tools:layout="@layout/fragment_character_list"/>
 
     <fragment
         android:id="@+id/characterDetails"
