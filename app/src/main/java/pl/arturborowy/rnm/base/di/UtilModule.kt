@@ -9,6 +9,7 @@ import pl.arturborowy.rnm.base.date.StringToDateConverter
 import pl.arturborowy.rnm.base.date.YearMonthDayHourMinuteSecondMillisStringToDateConverter
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
+import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
 import pl.arturborowy.rnm.base.ui.fragment.BaseFragmentFactory
 import java.util.*
 
@@ -31,4 +32,6 @@ val utilModule = module {
     factory<MutableCollection<Pair<ObservableField<*>, Observable.OnPropertyChangedCallback>>> {
         mutableSetOf()
     }
+
+    single { ItemBindingWrapper() }
 }
