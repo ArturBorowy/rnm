@@ -7,9 +7,11 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import pl.arturborowy.rnm.base.date.StringToDateConverter
 import pl.arturborowy.rnm.base.date.YearMonthDayHourMinuteSecondMillisStringToDateConverter
+import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
+import pl.arturborowy.rnm.base.ui.ToastInvoker
 import pl.arturborowy.rnm.base.ui.fragment.BaseFragmentFactory
 import java.util.*
 
@@ -34,4 +36,8 @@ val utilModule = module {
     }
 
     single { ItemBindingWrapper() }
+
+    single { ToastInvoker(get()) }
+
+    single { ThrowableHandler(get()) }
 }

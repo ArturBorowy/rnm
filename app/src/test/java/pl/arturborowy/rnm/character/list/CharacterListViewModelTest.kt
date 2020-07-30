@@ -1,7 +1,6 @@
 package pl.arturborowy.rnm.character.list
 
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -12,6 +11,7 @@ import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 import org.koin.test.inject
 import pl.arturborowy.rnm.base.di.definitionModule
+import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
@@ -23,6 +23,7 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
 
     private val mockRnmService = mockk<RnmService>()
     private val mockItemBindingWrapper = mockk<ItemBindingWrapper>()
+    private val mockThrowableHandler = mockk<ThrowableHandler>()
 
     private val characterListViewModel by inject<CharacterListViewModel>()
 
@@ -37,6 +38,7 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
 
                 single(override = true) { mockItemBindingWrapper }
                 single(override = true) { mockRnmService }
+                single(override = true) { mockThrowableHandler }
             })
         }
 
@@ -46,7 +48,7 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `onViewCreated sets characters property`() {
+    fun `onViewCreated sets characters property when rnmService getCharacters returns success`() {
         every { mockRnmService.getCharacters() } returns Single.just(StubCharactersData.LIST.DTO)
 
         characterListViewModel.onViewCreated()
@@ -55,5 +57,16 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
             listOf(StubCharactersData.CHARACTER.ENTITY),
             characterListViewModel.characters
         )
+    }
+
+    @Test
+    fun `onViewCreated calls handle on throwableHandler when rnmService getCharacters returns error`() {
+        val throwable = Exception()
+        every { mockThrowableHandler.handle(throwable) } just Runs
+        every { mockRnmService.getCharacters() } returns Single.error(throwable)
+
+        characterListViewModel.onViewCreated()
+
+        verify(exactly = 1) { mockThrowableHandler.handle(throwable) }
     }
 }

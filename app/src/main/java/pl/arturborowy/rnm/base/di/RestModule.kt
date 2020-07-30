@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import pl.arturborowy.rnm.BuildConfig
 import pl.arturborowy.rnm.data.remote.RnmService
+import pl.arturborowy.rnm.data.remote.base.NetworkConnectionInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,8 +38,11 @@ val restModule = module {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(get<HttpLoggingInterceptor>())
+            .addInterceptor(get<NetworkConnectionInterceptor>())
             .build()
     }
+
+    single { NetworkConnectionInterceptor(get()) }
 
     single { get<Retrofit>().create(RnmService::class.java) }
 }

@@ -5,6 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import pl.arturborowy.rnm.BR
 import pl.arturborowy.rnm.R
+import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.rx.setSchedulers
 import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
@@ -13,14 +14,14 @@ import pl.arturborowy.rnm.base.ui.viewmodel.FragmentViewModel
 import pl.arturborowy.rnm.base.ui.viewmodel.RxJavaSubscriber
 import pl.arturborowy.rnm.domain.characters.CharactersInteractor
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
-import timber.log.Timber
 
 class CharacterListViewModel(
     private val charactersInteractor: CharactersInteractor,
     override val disposables: CompositeDisposable,
     private val schedulerProvider: SchedulerProvider,
     itemBindingWrapper: ItemBindingWrapper,
-    val loadingScreenViewModel: LoadingScreenViewModel
+    val loadingScreenViewModel: LoadingScreenViewModel,
+    private val throwableHandler: ThrowableHandler
 ) : FragmentViewModel(), RxJavaSubscriber {
 
     val characters = ObservableArrayList<CharacterDetailsEntity>()
@@ -37,16 +38,14 @@ class CharacterListViewModel(
 
     private fun fetchCharacters() {
         loadingScreenViewModel.show()
+        characters.clear()
 
         charactersInteractor.fetchCharacters()
             .setSchedulers(schedulerProvider)
             .doAfterTerminate(loadingScreenViewModel::hide)
             .subscribeBy(
-                onSuccess = {
-                    characters.clear()
-                    characters.addAll(it.characters)
-                },
-                onError = { Timber.w(it) }
+                onSuccess = { characters.addAll(it.characters) },
+                onError = throwableHandler::handle
             ).addToSubs()
     }
 
