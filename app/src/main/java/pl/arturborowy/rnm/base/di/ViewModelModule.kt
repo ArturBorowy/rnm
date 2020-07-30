@@ -14,6 +14,7 @@ val viewModelModule = module {
             get(),
             get(named<RemoteFetchSchedulerProvider>()),
             get(),
+            get(),
             get()
         )
     }
