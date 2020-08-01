@@ -3,6 +3,7 @@ package pl.arturborowy.rnm.data.remote
 import io.reactivex.Single
 import pl.arturborowy.rnm.data.remote.characters.model.CharactersListDto
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface RnmService {
 
@@ -11,5 +12,5 @@ interface RnmService {
     }
 
     @GET("api/character/")
-    fun getCharacters(): Single<CharactersListDto>
+    fun getCharacters(@Query("page") pageIndex: Int): Single<CharactersListDto>
 }

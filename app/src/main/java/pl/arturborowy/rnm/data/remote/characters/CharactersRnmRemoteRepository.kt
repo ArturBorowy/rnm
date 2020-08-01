@@ -9,7 +9,7 @@ class CharactersRnmRemoteRepository(
     private val characterListDtoToEntityMapper: CharacterListDtoToEntityMapper
 ) : CharactersRemoteRepository {
 
-    override fun getCharacters() =
-        rnmService.getCharacters()
+    override fun getCharacters(pageIndex: Int) =
+        rnmService.getCharacters(pageIndex)
             .map { characterListDtoToEntityMapper.map(it) }
 }

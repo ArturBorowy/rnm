@@ -1,7 +1,7 @@
 package pl.arturborowy.rnm.character.list
 
-import io.mockk.*
-import io.reactivex.Single
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -9,13 +9,16 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
+import org.koin.test.get
 import org.koin.test.inject
+import pl.arturborowy.rnm.R
 import pl.arturborowy.rnm.base.di.definitionModule
 import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
 import pl.arturborowy.rnm.data.remote.RnmService
+import pl.arturborowy.rnm.domain.characters.CharactersInteractor
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
 import pl.arturborowy.rnm.testutils.MockSchedulerProvider
 
@@ -48,25 +51,26 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `onViewCreated sets characters property when rnmService getCharacters returns success`() {
-        every { mockRnmService.getCharacters() } returns Single.just(StubCharactersData.LIST.DTO)
+    fun `onCharacterClick sets action_characterList_to_characterDetails to desiredDestination`() {
+        val character = mockk<CharacterDetailsEntity>()
 
-        characterListViewModel.onViewCreated()
+        characterListViewModel.onCharacterClick(character)
 
         assertEquals(
-            listOf(StubCharactersData.CHARACTER.ENTITY),
-            characterListViewModel.characters
+            R.id.action_characterList_to_characterDetails,
+            characterListViewModel.desiredDestination.get()
         )
     }
 
     @Test
-    fun `onViewCreated calls handle on throwableHandler when rnmService getCharacters returns error`() {
-        val throwable = Exception()
-        every { mockThrowableHandler.handle(throwable) } just Runs
-        every { mockRnmService.getCharacters() } returns Single.error(throwable)
+    fun `onCharacterClick caches character`() {
+        val character = mockk<CharacterDetailsEntity>()
 
-        characterListViewModel.onViewCreated()
+        characterListViewModel.onCharacterClick(character)
 
-        verify(exactly = 1) { mockThrowableHandler.handle(throwable) }
+        get<CharactersInteractor>()
+            .getCachedCharacter()
+            .test()
+            .assertValue(character)
     }
 }
