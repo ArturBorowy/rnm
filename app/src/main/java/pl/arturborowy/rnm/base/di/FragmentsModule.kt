@@ -13,7 +13,7 @@ import timber.log.Timber
 val fragmentsModule = module {
     single { NavHostFragment() }
 
-    fragment { CharacterListFragment(get()) }
+    fragment { CharacterListFragment(get(), get()) }
     fragment { CharacterDetailsFragment(get()) }
 }
 

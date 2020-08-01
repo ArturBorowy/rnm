@@ -5,5 +5,5 @@ import pl.arturborowy.rnm.domain.characters.model.CharacterListEntity
 
 interface CharactersRemoteRepository {
 
-    fun getCharacters(): Single<CharacterListEntity>
+    fun getCharacters(pageIndex: Int): Single<CharacterListEntity>
 }

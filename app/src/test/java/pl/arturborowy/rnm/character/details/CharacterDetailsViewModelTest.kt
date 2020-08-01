@@ -1,7 +1,6 @@
 package pl.arturborowy.rnm.character.details
 
 import io.mockk.*
-import io.reactivex.Single
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -44,12 +43,8 @@ class CharacterDetailsViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `onViewCreated sets correct values to ObservableFields after fetchCharacter and requestCachedCharacterId calls on charactersInteractor`() {
-        every { mockRnmService.getCharacters() } returns Single.just(StubCharactersData.LIST.DTO)
-
-        val charactersInteractor = get<CharactersInteractor>()
-        charactersInteractor.fetchCharacters().test()
-        charactersInteractor.requestCachedCharacterId(StubCharactersData.CHARACTER.ID)
+    fun `onViewCreated sets correct values to ObservableFields when character is cached`() {
+        get<CharactersInteractor>().cacheCharacter(StubCharactersData.CHARACTER.ENTITY).test()
 
         characterDetailsViewModel.onViewCreated()
 
@@ -80,13 +75,7 @@ class CharacterDetailsViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `onViewCreated calls handle on throwableHandler after fetchCharacter and requestCachedCharacterId calls on charactersInteractor, but requestCachedCharacterId is unknown`() {
-        every { mockRnmService.getCharacters() } returns Single.just(StubCharactersData.LIST.DTO)
-
-        val charactersInteractor = get<CharactersInteractor>()
-        charactersInteractor.fetchCharacters().test()
-        charactersInteractor.requestCachedCharacterId(-1)
-
+    fun `onViewCreated calls handle on throwableHandler when there is no cached character`() {
         every { mockThrowableHandler.handle(any()) } just Runs
 
         characterDetailsViewModel.onViewCreated()

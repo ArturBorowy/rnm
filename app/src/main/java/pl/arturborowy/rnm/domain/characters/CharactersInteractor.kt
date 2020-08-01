@@ -1,5 +1,6 @@
 package pl.arturborowy.rnm.domain.characters
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
 
@@ -8,19 +9,15 @@ class CharactersInteractor(
     private val charactersRemoteRepository: CharactersRemoteRepository
 ) {
 
-    fun fetchCharacters() =
-        charactersRemoteRepository.getCharacters()
-            .doOnSuccess { charactersCacheRepository.cacheCharacters(it.characters) }
+    fun fetchCharacters(pageIndex: Int) =
+        charactersRemoteRepository.getCharacters(pageIndex)
 
     fun getCachedCharacter(): Single<CharacterDetailsEntity> =
-        charactersCacheRepository.getCharacters()
-            .map { characters ->
-                characters.firstOrNull { character ->
-                    character.id == charactersCacheRepository.requestedCachedCharacterId
-                }
-            }
+        Single.create { it.onSuccess(charactersCacheRepository.cachedCharacter!!) }
 
-    fun requestCachedCharacterId(id: Int) {
-        charactersCacheRepository.requestedCachedCharacterId = id
-    }
+    fun cacheCharacter(character: CharacterDetailsEntity) =
+        Completable.create {
+            charactersCacheRepository.cachedCharacter = character
+            it.onComplete()
+        }
 }
