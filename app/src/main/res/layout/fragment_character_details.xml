@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,35 +10,78 @@
             type="pl.arturborowy.rnm.character.details.CharacterDetailsViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcUrl="@{vm.avatarUrl}" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{vm.gender}" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{vm.statusOfLife}" />
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                app:srcUrl="@{vm.avatarUrl}"
+                tools:background="@color/colorAccent" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{vm.currentLocationName}" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@{vm.name}"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                tools:text="Thomas Vinterberg" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{vm.originLocationName}" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/characterDetails_label_gender(vm.gender)}"
+                android:textSize="18sp"
+                tools:text="@string/characterDetails_label_gender" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/characterDetails_label_status(vm.statusOfLife)}"
+                android:textSize="18sp"
+                tools:text="@string/characterDetails_label_status" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/characterDetails_label_currentLocation(vm.currentLocationName)}"
+                android:textSize="18sp"
+                tools:text="@string/characterDetails_label_currentLocation" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/characterDetails_label_originLocation(vm.originLocationName)}"
+                android:textSize="18sp"
+                tools:text="@string/characterDetails_label_originLocation" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </layout>

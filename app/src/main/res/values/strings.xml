@@ -3,4 +3,9 @@
 
     <string name="error_unknown">Something wrong happened.</string>
     <string name="error_internet_not_available">"Can't fetch data :(.\nCheck your internet connection."</string>
+
+    <string name="characterDetails_label_gender">Gender: %s</string>
+    <string name="characterDetails_label_status">Status in universe: %s</string>
+    <string name="characterDetails_label_currentLocation">Current location: %s</string>
+    <string name="characterDetails_label_originLocation">Origin location: %s</string>
 </resources>

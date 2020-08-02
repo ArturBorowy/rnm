@@ -10,6 +10,7 @@ import pl.arturborowy.rnm.base.rx.setSchedulers
 import pl.arturborowy.rnm.base.ui.view.LoadingScreenViewModel
 import pl.arturborowy.rnm.base.ui.viewmodel.FragmentViewModel
 import pl.arturborowy.rnm.base.ui.viewmodel.RxJavaSubscriber
+import pl.arturborowy.rnm.domain.characters.CharactersDataSource
 import pl.arturborowy.rnm.domain.characters.CharactersInteractor
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
 import pl.arturborowy.rnm.domain.characters.model.CharactersDataSourceFactory
@@ -20,7 +21,8 @@ class CharacterListViewModel(
     private val schedulerProvider: SchedulerProvider,
     val loadingScreenViewModel: LoadingScreenViewModel,
     private val throwableHandler: ThrowableHandler,
-    private val charactersDataSourceFactory: CharactersDataSourceFactory
+    private val charactersDataSourceFactory: CharactersDataSourceFactory,
+    private val charactersDataSource: CharactersDataSource
 ) : FragmentViewModel(), RxJavaSubscriber {
 
     companion object {
@@ -30,6 +32,11 @@ class CharacterListViewModel(
     val pagingData =
         LivePagedListBuilder<Int, CharacterDetailsEntity>(charactersDataSourceFactory, PAGE_SIZE)
             .build()
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        charactersDataSource.setLoadingScreenViewModel(loadingScreenViewModel)
+    }
 
     fun onCharacterClick(character: CharacterDetailsEntity) {
         charactersInteractor.cacheCharacter(character)
