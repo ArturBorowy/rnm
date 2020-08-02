@@ -3,6 +3,7 @@ package pl.arturborowy.rnm.domain.characters
 import androidx.paging.PageKeyedDataSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
+import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.rx.setSchedulers
 import pl.arturborowy.rnm.base.ui.view.LoadingScreenViewModel
@@ -14,7 +15,8 @@ import timber.log.Timber
 class CharactersDataSource(
     private val charactersInteractor: CharactersInteractor,
     private val schedulerProvider: SchedulerProvider,
-    override val disposables: CompositeDisposable
+    override val disposables: CompositeDisposable,
+    private val throwableHandler: ThrowableHandler
 ) : PageKeyedDataSource<Int, CharacterDetailsEntity>(), RxJavaSubscriber {
 
     private var loadingScreenViewModel: LoadingScreenViewModel? = null
@@ -32,7 +34,7 @@ class CharactersDataSource(
             .doAfterTerminate { loadingScreenViewModel?.hide() }
             .subscribeBy(
                 onSuccess = { onCharactersFetch(it, callback, firstPageIndex) },
-                onError = Timber::e
+                onError = throwableHandler::handle
             ).addToSubs()
     }
 
@@ -56,7 +58,7 @@ class CharactersDataSource(
             .setSchedulers(schedulerProvider)
             .subscribeBy(
                 onSuccess = { onCharactersFetch(it, callback, params.key) },
-                onError = Timber::e
+                onError = throwableHandler::handle
             ).addToSubs()
     }
 

@@ -1,6 +1,5 @@
 package pl.arturborowy.rnm.character.list
 
-import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -16,7 +15,6 @@ import pl.arturborowy.rnm.base.di.definitionModule
 import pl.arturborowy.rnm.base.error.ThrowableHandler
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
-import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
 import pl.arturborowy.rnm.data.remote.RnmService
 import pl.arturborowy.rnm.domain.characters.CharactersInteractor
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
@@ -25,7 +23,6 @@ import pl.arturborowy.rnm.testutils.MockSchedulerProvider
 class CharacterListViewModelTest : AutoCloseKoinTest() {
 
     private val mockRnmService = mockk<RnmService>()
-    private val mockItemBindingWrapper = mockk<ItemBindingWrapper>()
     private val mockThrowableHandler = mockk<ThrowableHandler>()
 
     private val characterListViewModel by inject<CharacterListViewModel>()
@@ -39,15 +36,10 @@ class CharacterListViewModelTest : AutoCloseKoinTest() {
                     qualifier = named<RemoteFetchSchedulerProvider>()
                 ) { MockSchedulerProvider() }
 
-                single(override = true) { mockItemBindingWrapper }
                 single(override = true) { mockRnmService }
                 single(override = true) { mockThrowableHandler }
             })
         }
-
-        every {
-            mockItemBindingWrapper.createBinding<CharacterDetailsEntity>(any(), any(), any())
-        } returns mockk()
     }
 
     @Test
