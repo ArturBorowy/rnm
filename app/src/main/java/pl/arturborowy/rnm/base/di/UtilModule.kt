@@ -8,10 +8,8 @@ import org.koin.dsl.module
 import pl.arturborowy.rnm.base.date.StringToDateConverter
 import pl.arturborowy.rnm.base.date.YearMonthDayHourMinuteSecondMillisStringToDateConverter
 import pl.arturborowy.rnm.base.error.ThrowableHandler
-import pl.arturborowy.rnm.base.rx.IoSchedulerProvider
 import pl.arturborowy.rnm.base.rx.RemoteFetchSchedulerProvider
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
-import pl.arturborowy.rnm.base.ui.ItemBindingWrapper
 import pl.arturborowy.rnm.base.ui.ToastInvoker
 import pl.arturborowy.rnm.base.ui.fragment.BaseFragmentFactory
 import pl.arturborowy.rnm.character.list.CharacterDiffCallback
@@ -19,16 +17,13 @@ import pl.arturborowy.rnm.domain.characters.model.CharactersDataSourceFactory
 import java.util.*
 
 val utilModule = module {
-    single { ClassLoader.getSystemClassLoader() }
-    single { BaseFragmentFactory(get()) }
+    single { BaseFragmentFactory() }
 
     factory { CompositeDisposable() }
 
     single<SchedulerProvider>(named<RemoteFetchSchedulerProvider>()) {
         RemoteFetchSchedulerProvider()
     }
-
-    single<SchedulerProvider>(named<IoSchedulerProvider>()) { IoSchedulerProvider() }
 
     single<StringToDateConverter>(
         named<YearMonthDayHourMinuteSecondMillisStringToDateConverter>()
@@ -39,8 +34,6 @@ val utilModule = module {
     factory<MutableCollection<Pair<ObservableField<*>, Observable.OnPropertyChangedCallback>>> {
         mutableSetOf()
     }
-
-    single { ItemBindingWrapper() }
 
     single { ToastInvoker(get()) }
 

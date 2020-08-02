@@ -6,9 +6,8 @@ import org.koin.core.KoinComponent
 import org.koin.core.error.NoBeanDefFoundException
 import org.koin.core.get
 import org.koin.core.qualifier.named
-import kotlin.reflect.KClass
 
-class BaseFragmentFactory(private val classLoader: ClassLoader) : FragmentFactory(), KoinComponent {
+class BaseFragmentFactory : FragmentFactory(), KoinComponent {
 
     override fun instantiate(classLoader: ClassLoader, className: String) =
         try {
@@ -20,9 +19,6 @@ class BaseFragmentFactory(private val classLoader: ClassLoader) : FragmentFactor
         } catch (exception: NoBeanDefFoundException) {
             throw NoFragmentDefFoundException(className)
         }
-
-    fun <FragmentT : BaseFragment<*>> createFragment(fragmentClass: KClass<FragmentT>): FragmentT =
-        instantiate(classLoader, fragmentClass.qualifiedName!!) as FragmentT
 }
 
 private class NoFragmentDefFoundException(className: String) :

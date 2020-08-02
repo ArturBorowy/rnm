@@ -10,32 +10,32 @@ import java.util.*
 object StubCharactersData {
 
     object PAGING {
-        const val COUNT = 40
-        const val NEXT = "url/to/next"
-        const val PAGES = 2
-        const val PREVIOUS = "url/to/previous"
+        private const val COUNT = 40
+        private const val NEXT = "url/to/next"
+        private const val PAGES = 2
+        private const val PREVIOUS = "url/to/previous"
 
         val DTO = PagingInfoDto(COUNT, NEXT, PAGES, PREVIOUS)
         val ENTITY = PagingInfoEntity(COUNT, NEXT, PAGES, PREVIOUS)
     }
 
     object CHARACTER {
-        const val CREATED_STRING = "2017-11-04T18:48:46.250Z"
-        val EPISODES = listOf("EP1", "EP2")
+        private const val CREATED_STRING = "2017-11-04T18:48:46.250Z"
+        private val EPISODES = listOf("EP1", "EP2")
         const val GENDER = "FEMALE"
-        const val ID = 1234
+        private const val ID = 1234
         const val IMAGE_URL = "image/url"
-        val CURRENT_LOCATION_NAME = "Paris"
-        val CURRENT_LOCATION_URL = "url/to/paris"
-        val CURRENT_LOCATION_DTO = CurrentLocationDto(CURRENT_LOCATION_NAME, CURRENT_LOCATION_URL)
-        val NAME = "Thomas Vinterberg"
-        val ORIGIN_LOCATION_NAME = "Venice"
-        val ORIGIN_LOCATION_URL = "url/to/venice"
-        val ORIGIN_LOCATION_DTO = OriginLocationDto(ORIGIN_LOCATION_NAME, ORIGIN_LOCATION_URL)
-        val SPICES = "Fox"
-        val STATUS = "Alive"
-        val TYPE = "unknown"
-        val URL = "url/to/character"
+        const val CURRENT_LOCATION_NAME = "Paris"
+        private const val CURRENT_LOCATION_URL = "url/to/paris"
+        private val CURRENT_LOCATION_DTO = CurrentLocationDto(CURRENT_LOCATION_NAME, CURRENT_LOCATION_URL)
+        const val NAME = "Thomas Vinterberg"
+        const val ORIGIN_LOCATION_NAME = "Venice"
+        private const val ORIGIN_LOCATION_URL = "url/to/venice"
+        private val ORIGIN_LOCATION_DTO = OriginLocationDto(ORIGIN_LOCATION_NAME, ORIGIN_LOCATION_URL)
+        private const val SPICES = "Fox"
+        const val STATUS = "Alive"
+        private const val TYPE = "unknown"
+        private const val URL = "url/to/character"
 
         val DTO = CharacterDetailsDto(
             CREATED_STRING,
@@ -52,11 +52,11 @@ object StubCharactersData {
             URL
         )
 
-        val CREATED_DATE =
+        private val CREATED_DATE =
             getDate(2017, 10, 4, 48, 18, 46, 250, 0)
-        val CURRENT_LOCATION_ENTITY =
+        private val CURRENT_LOCATION_ENTITY =
             CharacterLocationEntity(CURRENT_LOCATION_NAME, CURRENT_LOCATION_URL)
-        val ORIGIN_LOCATION_ENTITY =
+        private val ORIGIN_LOCATION_ENTITY =
             CharacterLocationEntity(ORIGIN_LOCATION_NAME, ORIGIN_LOCATION_URL)
 
         val ENTITY = CharacterDetailsEntity(
