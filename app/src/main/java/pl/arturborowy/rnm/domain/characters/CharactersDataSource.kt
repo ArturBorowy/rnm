@@ -5,6 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import pl.arturborowy.rnm.base.rx.SchedulerProvider
 import pl.arturborowy.rnm.base.rx.setSchedulers
+import pl.arturborowy.rnm.base.ui.view.LoadingScreenViewModel
 import pl.arturborowy.rnm.base.ui.viewmodel.RxJavaSubscriber
 import pl.arturborowy.rnm.domain.characters.model.CharacterDetailsEntity
 import pl.arturborowy.rnm.domain.characters.model.CharacterListEntity
@@ -16,17 +17,22 @@ class CharactersDataSource(
     override val disposables: CompositeDisposable
 ) : PageKeyedDataSource<Int, CharacterDetailsEntity>(), RxJavaSubscriber {
 
+    private var loadingScreenViewModel: LoadingScreenViewModel? = null
+
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, CharacterDetailsEntity>
     ) {
         val firstPageIndex = 1
 
+        loadingScreenViewModel?.show()
+
         charactersInteractor.fetchCharacters(firstPageIndex)
             .setSchedulers(schedulerProvider)
+            .doAfterTerminate { loadingScreenViewModel?.hide() }
             .subscribeBy(
                 onSuccess = { onCharactersFetch(it, callback, firstPageIndex) },
-                onError = { Timber.e(it) }
+                onError = Timber::e
             ).addToSubs()
     }
 
@@ -66,5 +72,9 @@ class CharactersDataSource(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, CharacterDetailsEntity>
     ) {
+    }
+
+    fun setLoadingScreenViewModel(loadingScreenViewModel: LoadingScreenViewModel) {
+        this.loadingScreenViewModel = loadingScreenViewModel
     }
 }
